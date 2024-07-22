@@ -245,9 +245,9 @@ def checkout(request):
         return render(request, "payment/checkout.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_form":shipping_form})
 
 
-def payment_succes(request):
+def payment_success(request):
 
-    return render(request, "payment/payment_succes.html", {})
+    return render(request, "payment/payment_success.html", {})
 
 def payment_failed(request):
 
