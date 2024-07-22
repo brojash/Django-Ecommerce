@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category, Profile
+from .models import Product, Category, Profile, Order
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
