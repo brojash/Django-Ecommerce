@@ -16,6 +16,12 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.error.transbank_error import TransbankError
 from cart.cart import Cart
 
+# Import Some Paypal Stuff
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid # unique user id for duplictate orders
+
 
 
 def orders(request, pk):
@@ -82,58 +88,7 @@ def shipped_dash(request):
 		messages.success(request, "Access Denied")
 		return redirect('home')
 
-
-
-def init_transaction(request):
-    if request.method == 'POST':
-        cart = Cart(request)
-
-        amount = cart.cart_total()
-
-        buy_order = "orden_compra_12345678"
-        session_id = "sesion_1234564"
-        return_url = "http://127.0.0.1:8000/"
-
-        try:
-            transaction = Transaction()
-            response = transaction.create(buy_order, session_id, amount, return_url)
-            return redirect(response['url'] + '?token_ws=' + response['token'])
-        except TransbankError as e:
-            return HttpResponse(str(e))
-    else:
-        return HttpResponse("Método no permitido.", status=405)
-
-def transaction_response(request):
-    token = request.GET.get('token_ws')
-    try:
-        transaction = Transaction()
-        response = transaction.commit(token)
-        if response['status'] == 'AUTHORIZED':
-            # Procesa los datos de la transacción
-            transaction_status = response['status']
-            transaction_date = response['accounting_date']
-            #card_number = response['card_number']
-            payment_type = response['payment_type_code']
-            amount = response['amount']
-            #receipt = response['receipt']
-            order_number = response['buy_order']
-            #return HttpResponse("Transacción autorizada.")
-            # Renderiza la plantilla con los datos
-            return render(request, 'transaction_details.html', {
-                'transaction_status': transaction_status,
-                'transaction_date': transaction_date,
-                #'card_number': card.card_number,
-                'payment_type': payment_type,
-                'amount': amount,
-                #'receipt': receipt,
-                'order_number': order_number
-            })
-        else:
-            return HttpResponse("Transacción fallida.")
-    except TransbankError as e:
-        return HttpResponse(str(e))
 ###########################################
-
 
 def process_order(request):
     if request.POST:
@@ -222,29 +177,55 @@ def process_order(request):
 
 
 def billing_info(request):
-    if request.POST:
-        cart = Cart(request)
-        cart_products = cart.get_prods
-        quantities = cart.get_quants
-        totals = cart.cart_total()
+	if request.POST:
+		# Get the cart
+		cart = Cart(request)
+		cart_products = cart.get_prods
+		quantities = cart.get_quants
+		totals = cart.cart_total()
 
-        my_shipping = request.POST
-        request.session['my_shipping'] = my_shipping
+		# Create a session with Shipping Info
+		my_shipping = request.POST
+		request.session['my_shipping'] = my_shipping
 
-        if request.user.is_authenticated:
-            billing_form = PaymentForm()
-            return render(request, "payment/billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+		# Get the host
+		host = request.get_host()
+		# Create Paypal Form Dictionary
+		paypal_dict = {
+			'business': settings.PAYPAL_RECEIVER_EMAIL,
+			'amount': totals,
+			'item_name': 'Book Order',
+			'no_shipping': '2',
+			'invoice': str(uuid.uuid4()),
+			'currency_code': 'USD', # EUR for Euros
+			'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
+			'return_url': 'https://{}{}'.format(host, reverse("payment_success")),
+			'cancel_return': 'https://{}{}'.format(host, reverse("payment_failed")),
+		}
 
-        else:
-            billing_form = PaymentForm()
-            return render(request, "payment/billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+		# Create acutal paypal button
+		paypal_form = PayPalPaymentsForm(initial=paypal_dict)
 
 
-        shipping_form = request.POST
-        return render(request, "payment/billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_form":shipping_form})
-    else:
-        messages.success(request, "Acceso denegado.")
-        return redirect('home')
+		# Check to see if user is logged in
+		if request.user.is_authenticated:
+			# Get The Billing Form
+			billing_form = PaymentForm()
+			return render(request, "payment/billing_info.html", {"paypal_form":paypal_form, "cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+
+		else:
+			# Not logged in
+			# Get The Billing Form
+			billing_form = PaymentForm()
+			return render(request, "payment/billing_info.html", {"paypal_form":paypal_form, "cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_info":request.POST, "billing_form":billing_form})
+
+
+		
+		shipping_form = request.POST
+		return render(request, "payment/billing_info.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals, "shipping_form":shipping_form})	
+	else:
+		messages.success(request, "Access Denied")
+		return redirect('home')
 
 
 def checkout(request):
@@ -267,5 +248,9 @@ def checkout(request):
 def payment_succes(request):
 
     return render(request, "payment/payment_succes.html", {})
+
+def payment_failed(request):
+
+    return render(request, "payment/payment_failed.html", {})
 
 
