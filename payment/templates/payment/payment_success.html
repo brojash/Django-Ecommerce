@@ -110,15 +110,6 @@
     <div class="confirmation-container">
         <h1 class="thank-you">¡Gracias por tu compra!</h1>
         <p class="payment-success">Tu pago fue exitoso</p>
-
-        <h3 class="order-summary-title">Resumen del Pedido:</h3>
-        <div class="order-summary">
-            <ul>
-                {% for product in cart_products %}
-            </ul>
-            <p class="total-price">Total: ${totals}</p>
-        </div>
-
         <a href="{% url 'home' %}" class="button">Seguir Comprando</a>
     </div>
 </body>

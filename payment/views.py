@@ -199,7 +199,7 @@ def billing_info(request):
 			'invoice': str(uuid.uuid4()),
 			'currency_code': 'USD', # EUR for Euros
 			'notify_url': 'https://{}{}'.format(host, reverse("paypal-ipn")),
-			'return_url': 'https://{}{}'.format(host, reverse("payment_success")),
+			'return_url': 'https://{}{}'.format(host, reverse("home")),
 			'cancel_return': 'https://{}{}'.format(host, reverse("payment_failed")),
 		}
 
