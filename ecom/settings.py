@@ -2,6 +2,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+
+
+
+
+
 load_dotenv()
 
 TRANSBANK_API_KEY = os.getenv('TRANSBANK_API_KEY')  #kambiar por api ki
@@ -23,7 +28,7 @@ SECRET_KEY = 'django-insecure-^8j3s^9v!45(tok$ynh+_&llt)rtv!xh)@5k$u$yb4d76&ooq1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://djangotest.com', 'djangotest.com', 'django-ecommerce-production-9f7f.up.railway.app', 'https://django-ecommerce-production-9f7f.up.railway.app']
+ALLOWED_HOSTS = ['https://djangotest.com', 'djangotest.com', 'django-ecommerce-production-9f7f.up.railway.app', 'https://django-ecommerce-production-9f7f.up.railway.app', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://django-ecommerce-production-9f7f.up.railway.app']
 
 
