@@ -4,7 +4,7 @@ import os
 
 
 
-
+CSRF_TRUSTED_ORIGINS = ['https://ferremax.up.railway.app/','https://127.0.0.1']
 
 
 load_dotenv()
