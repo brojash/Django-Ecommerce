@@ -1,31 +1,157 @@
-<h1>¡Gracias por tu compra, [Nombre]!</h1>
-<p>Tu pago fue exitoso. Aquí están los detalles de tu pedido:</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .confirmation-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .thank-you {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        .payment-success {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .order-number {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        .order-summary-title {
+            font-size: 18px;
+            margin-top: 20px;
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            color: #333;
+        }
+        .order-summary ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .order-summary li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-summary li:last-child {
+            border-bottom: none;
+        }
+        .total-price {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .shipping-info {
+            margin-top: 20px;
+        }
+        .shipping-info p {
+            margin: 5px 0;
+        }
+        .track-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .track-link:hover {
+            text-decoration: underline;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .offers, .resources, .related-products {
+            margin-top: 20px;
+        }
+        .offers p, .resources p, .related-products p {
+            font-size: 16px;
+        }
+        .resources a, .related-products a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .resources a:hover, .related-products a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <h1 class="thank-you">¡Gracias por tu compra, [Nombre]!</h1>
+        <p class="payment-success">Tu pago fue exitoso. Aquí están los detalles de tu pedido:</p>
 
-<h2>Número de Pedido: #123456</h2>
+        <h2 class="order-number">Número de Pedido: #123456</h2>
 
-<h3>Resumen del Pedido:</h3>
-<ul>
-  <li>Producto 1: Cantidad x Precio</li>
-  <li>Producto 2: Cantidad x Precio</li>
-  <!-- Más productos -->
-</ul>
-<p>Total: $XXX.XX</p>
+        <h3 class="order-summary-title">Resumen del Pedido:</h3>
+        <div class="order-summary">
+            <ul>
+                <li>Producto 1: Cantidad x Precio</li>
+                <li>Producto 2: Cantidad x Precio</li>
+                <!-- Más productos -->
+            </ul>
+            <p class="total-price">Total: $XXX.XX</p>
+        </div>
 
-<h3>Envío a:</h3>
-<p>[Dirección del Usuario]</p>
-<p>Método de Envío: [Método Seleccionado] (Estimación de Entrega: [Fecha])</p>
-<a href="enlace-de-rastreo">Rastrear Envío</a>
+        <div class="shipping-info">
+            <h3>Envío a:</h3>
+            <p>[Dirección del Usuario]</p>
+            <p>Método de Envío: [Método Seleccionado] (Estimación de Entrega: [Fecha])</p>
+            <a href="enlace-de-rastreo" class="track-link">Rastrear Envío</a>
+        </div>
 
-<h3>¿Necesitas Ayuda?</h3>
-<p>Contacta a nuestro <a href="link-de-soporte">Servicio al Cliente</a>.</p>
+        <div class="customer-support">
+            <h3>¿Necesitas Ayuda?</h3>
+            <p>Contacta a nuestro <a href="link-de-soporte">Servicio al Cliente</a>.</p>
+        </div>
 
-<button onclick="window.location.href='shop.html'">Seguir Comprando</button>
+        <a href="shop.html" class="button">Seguir Comprando</a>
 
-<h3>Ofertas Exclusivas:</h3>
-<p>Aprovecha un 10% de descuento en tu próxima compra con el código: GRACIAS10</p>
+        <div class="offers">
+            <h3>Ofertas Exclusivas:</h3>
+            <p>Aprovecha un 10% de descuento en tu próxima compra con el código: GRACIAS10</p>
+        </div>
 
-<h3>Recursos Adicionales:</h3>
-<p>Encuentra <a href="manual.html">manuales de productos</a> y <a href="videos.html">videos tutoriales</a>.</p>
+        <div class="resources">
+            <h3>Recursos Adicionales:</h3>
+            <p>Encuentra <a href="manual.html">manuales de productos</a> y <a href="videos.html">videos tutoriales</a>.</p>
+        </div>
 
-<h3>Productos que te podrían interesar:</h3>
-<!-- Sugerencias de productos -->
+        <div class="related-products">
+            <h3>Productos que te podrían interesar:</h3>
+            <!-- Sugerencias de productos -->
+        </div>
+    </div>
+</body>
+</html>
+
