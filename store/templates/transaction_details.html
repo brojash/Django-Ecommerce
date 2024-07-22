@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Transacción</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Detalles de la Transacción</h1>
+    <p><strong>Estado:</strong> {{ transaction_status }}</p>
+    <p><strong>Fecha:</strong> {{ transaction_date }}</p>
+    <p><strong>Número de Tarjeta:</strong> {{ card_number }}</p>
+    <p><strong>Tipo de Pago:</strong> {{ payment_type }}</p>
+    <p><strong>Monto Pagado:</strong> {{ amount }}</p>
+    <p><strong>Comprobante:</strong> {{ receipt }}</p>
+    <p><strong>Número de Orden:</strong> {{ order_number }}</p>
+</body>
+<br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/>
+<br/><br/><br/><br/>
+<br/><br/>
+</html>
+{% endblock %}

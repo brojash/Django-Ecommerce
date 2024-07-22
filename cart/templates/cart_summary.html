@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Carrito de Compras</h1>
+                    <p class="lead fw-normal text-white-50 mb-0"></p>
+                </div>
+            </div>
+        </header>
+        <br/>
+        <div class="container">
+        {% if cart_products %}
+            {% for product in cart_products %}
+                
+            <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                        <center>
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <br/>
+                        <p class="card-text justified">{{ product.description }}</p>
+    
+                        {% if product.is_sale %}
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                            <strike>${{ product.price }}</strike>
+                            &nbsp;
+                            ${{ product.sale_price }}
+                        {% else %}
+                            ${{product.price}}
+                        {% endif %}
+                        <br/><br/>
+                        <div class="row justify-content-center">
+                          <div class="col-md-2">Cantidad: </div>
+                            <div class="col-md-2">
+                            <select class="form-select form-select-sm" id="select{{product.id}}">
+                              
+
+                                {% for key, value in quantities.items %}
+                                  {% if key == product.id|slugify %}
+                                  <option selected>{{ value }}</option>
+                                  {% endif %}
+                                {% endfor %}
+
+                              
+
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                            </div>
+                          </div>
+                        <br/><br/>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Inicio</a>
+                        <button type="button" data-index="{{product.id}}" class="btn btn-secondary update-cart">Actualizar</button>
+                        <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product">Eliminar</button>
+                        
+                        </center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            {% endfor %}
+              <div align="left">
+              <h3>Total: ${{ totals }}</h3>
+              <a href="{% url 'checkout' %}" class="btn btn-success">Proceder al pago</a>
+              </div>
+            {% else %}
+            <div class="container-fluid  mt-100">
+              <div class="row">	 
+                <div class="col-md-12">		
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Carrito</h5>
+                    </div>
+                    <div class="card-body cart">
+                      <div class="col-sm-12 empty-cart-cls text-center">
+                        <img src="https://www.pngkey.com/png/full/411-4119504_el-carrito-de-la-compra-est-vaco-shopping.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+                        <h3><strong>Tu carrito esta vacio.</strong></h3>
+                        <h4>¡Suma productos y consigue envio gratis !</h4>
+                        <a href="{% url 'home' %}" class="btn btn-secondary cart-btn-transform m-3">Inicio</a>	
+                      </div>
+                    </div>
+                  </div>	
+                </div>	 
+              </div>		
+            </div>
+
+        {% endif %}
+        </div>
+<br/><br/>
+<br/><br/>
+
+<script>
+  //actualizar carro
+
+  $(document).on('click','.update-cart', function(e){
+    e.preventDefault();
+    //agarrar id de producto
+    var productid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'cart_update' %}',
+      data: {
+        product_id: $(this).data('index'),
+        product_qty: $('#select' + productid + ' option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        //console.log(json)
+        //document.getElementById("cart_quantity").textContent = json.qty
+        location.reload();
+      },
+
+      error: function(xhr,errmsg,err){
+
+      }
+
+    });
+
+  })
+
+
+  //borrar productos carro
+
+  $(document).on('click','.delete-product', function(e){
+    e.preventDefault();
+    //agarrar id de producto
+    //var productid = $(this).data('index');
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url 'cart_delete' %}',
+      data: {
+        product_id: $(this).data('index'),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        //console.log(json)
+        //document.getElementById("cart_quantity").textContent = json.qty
+        location.reload();
+      },
+
+      error: function(xhr,errmsg,err){
+
+      }
+
+    });
+
+  })
+
+
+</script>
+
+{% endblock %}
