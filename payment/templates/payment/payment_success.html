@@ -108,49 +108,18 @@
 </head>
 <body>
     <div class="confirmation-container">
-        <h1 class="thank-you">¡Gracias por tu compra, [Nombre]!</h1>
-        <p class="payment-success">Tu pago fue exitoso. Aquí están los detalles de tu pedido:</p>
-
-        <h2 class="order-number">Número de Pedido: #123456</h2>
+        <h1 class="thank-you">¡Gracias por tu compra!</h1>
+        <p class="payment-success">Tu pago fue exitoso</p>
 
         <h3 class="order-summary-title">Resumen del Pedido:</h3>
         <div class="order-summary">
             <ul>
-                <li>Producto 1: Cantidad x Precio</li>
-                <li>Producto 2: Cantidad x Precio</li>
-                <!-- Más productos -->
+                {% for product in cart_products %}
             </ul>
-            <p class="total-price">Total: $XXX.XX</p>
+            <p class="total-price">Total: ${totals}</p>
         </div>
 
-        <div class="shipping-info">
-            <h3>Envío a:</h3>
-            <p>[Dirección del Usuario]</p>
-            <p>Método de Envío: [Método Seleccionado] (Estimación de Entrega: [Fecha])</p>
-            <a href="enlace-de-rastreo" class="track-link">Rastrear Envío</a>
-        </div>
-
-        <div class="customer-support">
-            <h3>¿Necesitas Ayuda?</h3>
-            <p>Contacta a nuestro <a href="link-de-soporte">Servicio al Cliente</a>.</p>
-        </div>
-
-        <a href="shop.html" class="button">Seguir Comprando</a>
-
-        <div class="offers">
-            <h3>Ofertas Exclusivas:</h3>
-            <p>Aprovecha un 10% de descuento en tu próxima compra con el código: GRACIAS10</p>
-        </div>
-
-        <div class="resources">
-            <h3>Recursos Adicionales:</h3>
-            <p>Encuentra <a href="manual.html">manuales de productos</a> y <a href="videos.html">videos tutoriales</a>.</p>
-        </div>
-
-        <div class="related-products">
-            <h3>Productos que te podrían interesar:</h3>
-            <!-- Sugerencias de productos -->
-        </div>
+        <a href="{% url 'home' %}" class="button">Seguir Comprando</a>
     </div>
 </body>
 </html>
